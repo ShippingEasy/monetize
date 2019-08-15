@@ -1,5 +1,5 @@
 class NilClass
-  def to_money(currency = nil)
-    Money.new(nil, currency || Money.default_currency)
+  def to_money(currency = Money.default_currency, options = {})
+    Money.new(nil, currency, options)
   end
 end

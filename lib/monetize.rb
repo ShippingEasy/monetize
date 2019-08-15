@@ -28,12 +28,12 @@ module Monetize
 
     def parse!(input, currency = Money.default_currency, options = {})
       return input if input.is_a?(Money)
-      return from_numeric(input, currency) if input.is_a?(Numeric)
+      return from_numeric(input, currency, options) if input.is_a?(Numeric)
 
       parser = Monetize::Parser.new(input, currency, options)
       amount, currency = parser.parse
 
-      Money.from_amount(amount, currency)
+      Money.from_amount(amount, currency, options)
     rescue Money::Currency::UnknownCurrency => e
       fail ParseError, e.message
     end
@@ -42,33 +42,33 @@ module Monetize
       Collection.parse(input, currency, options)
     end
 
-    def from_string(value, currency = Money.default_currency)
+    def from_string(value, currency = Money.default_currency, options = {})
       value = BigDecimal(value.to_s)
-      Money.from_amount(value, currency)
+      Money.from_amount(value, currency, options)
     end
 
-    def from_fixnum(value, currency = Money.default_currency)
-      Money.from_amount(value, currency)
+    def from_fixnum(value, currency = Money.default_currency, options = {})
+      Money.from_amount(value, currency, options)
     end
     alias_method :from_integer, :from_fixnum
 
-    def from_float(value, currency = Money.default_currency)
-      Money.from_amount(value, currency)
+    def from_float(value, currency = Money.default_currency, options = {})
+      Money.from_amount(value, currency, options)
     end
 
-    def from_bigdecimal(value, currency = Money.default_currency)
-      Money.from_amount(value, currency)
+    def from_bigdecimal(value, currency = Money.default_currency, options = {})
+      Money.from_amount(value, currency, options)
     end
 
-    def from_numeric(value, currency = Money.default_currency)
+    def from_numeric(value, currency = Money.default_currency, options = {})
       fail ArgumentError, "'value' should be a type of Numeric" unless value.is_a?(Numeric)
-      Money.from_amount(value, currency)
+      Money.from_amount(value, currency, options)
     end
 
-    def extract_cents(input, currency = Money.default_currency)
+    def extract_cents(input, currency = Money.default_currency, options = {})
       warn '[DEPRECATION] Monetize.extract_cents is deprecated. Use Monetize.parse().cents'
 
-      money = parse(input, currency)
+      money = parse(input, currency, options)
       money.cents if money
     end
   end
