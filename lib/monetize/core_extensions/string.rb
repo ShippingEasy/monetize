@@ -1,8 +1,8 @@
 # encoding: utf-8
 
 class String
-  def to_money(currency = nil)
-    Monetize.parse!(self, currency)
+  def to_money(currency = nil, options = {})
+    Monetize.parse!(self, currency, options)
   end
 
   def to_currency

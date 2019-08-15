@@ -136,6 +136,11 @@ describe Monetize, 'core extensions' do
         expect('10.10 USD'.to_money('USD')).to eq Money.new(10_10, 'USD')
       end
 
+      it 'accepts optional infinite precision flag' do
+        expect('10.10987'.to_money('USD', infinite_precision: true)).to eq Money.new(1010.987, 'USD', infinite_precision: true)
+        expect('10.10943'.to_money('EUR', infinite_precision: true)).to eq Money.new(1010.943, 'EUR', infinite_precision: true)
+      end
+
       it 'uses parsed currency, even if currency is passed' do
         expect('10.10 USD'.to_money('EUR')).to eq(Money.new(10_10, 'USD'))
       end
